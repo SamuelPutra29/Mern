@@ -23,3 +23,25 @@ app.get('/api/todoapp/GetNotes', (request, response)=> {
     });
 })
 
+app.post('/api/todoapp/AddNotes', multer().none(),(request, response) =>{
+    database.collection('todocollection').count({}, function(error,numOfDocs){
+        database,collection('todocollection').insertOne({
+            id:(numOfDocs+1).toString(),
+            description:request.body.newNotes
+        });
+        response.json('Added successfully');
+        
+    })
+
+})
+
+app.delete('/api/todoapp/DeleteNotes', (request, response) =>{
+    database.collection('todocollection').deleteOne({
+        id:request.body.id
+    });
+    response.json('Deleted successfully');
+})
+
+
+
+
